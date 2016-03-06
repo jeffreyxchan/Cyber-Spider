@@ -7,7 +7,6 @@
 class DiskMultiMap
 {
 public:
-
 	class Iterator
 	{
 	public:
@@ -16,9 +15,8 @@ public:
 		bool isValid() const;
 		Iterator& operator++();
 		MultiMapTuple operator*();
-
 	private:
-		// Your private member declarations will go here
+		bool m_valid;
 	};
 
 	DiskMultiMap();
@@ -31,7 +29,7 @@ public:
 	int erase(const std::string& key, const std::string& value, const std::string& context);
 
 private:
-	// Your private member declarations will go here
+	BinaryFile m_hashTable;
 };
 
 #endif // DISKMULTIMAP_H_

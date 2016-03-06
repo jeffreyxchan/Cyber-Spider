@@ -123,6 +123,9 @@
     <ClInclude Include="DiskMultiMap.h" />
     <ClInclude Include="MultiMapTuple.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DiskMultiMap.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
