@@ -9,5 +9,4 @@ struct MultiMapTuple
 	std::string value;
 	std::string context;
 };
-
 #endif // MULTIMAPTUPLE_H_

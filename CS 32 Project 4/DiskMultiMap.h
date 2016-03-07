@@ -12,11 +12,14 @@ public:
 	public:
 		Iterator();
 		// You may add additional constructors
+		Iterator(bool valid, BinaryFile::Offset nodeAddress);
 		bool isValid() const;
 		Iterator& operator++();
 		MultiMapTuple operator*();
 	private:
+		// can add more private stuff there
 		bool m_valid;
+		BinaryFile::Offset m_address;
 	};
 
 	DiskMultiMap();
@@ -29,7 +32,25 @@ public:
 	int erase(const std::string& key, const std::string& value, const std::string& context);
 
 private:
+	struct Header
+	{
+		// header struct total of 8 bytes long
+		int nBuckets;
+		BinaryFile::Offset freeList;
+	};
+	struct Association
+	{
+		char key[121];
+		char value[121];
+		char context[121];
+		BinaryFile::Offset next;
+	};
+
+	BinaryFile::Offset acquireNode();
+	unsigned int stringHashFunction(const std::string& hashMe);
+
 	BinaryFile m_hashTable;
+	Header m_header;
 };
 
 #endif // DISKMULTIMAP_H_
