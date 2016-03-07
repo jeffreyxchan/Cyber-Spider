@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "DiskMultiMap.h"
 #include "BinaryFile.h"
 #include "MultiMapTuple.h"
@@ -6,17 +7,6 @@
 #include <functional>
 
 const int MAX_DATA_LENGTH = 120;
-
-unsigned int DiskMultiMap::stringHashFunction(const std::string& hashMe)
-{
-	std::hash<std::string> str_hash; // creates a string hasher
-	unsigned int hashValue = str_hash(hashMe); // hash the string
-	Header h; // crate a header struct
-	m_hashTable.read(h, 0); // read in header struct into h
-	unsigned int nBuckets = h.nBuckets; // grab the number of buckets
-	unsigned int bucketNumber = hashValue % nBuckets; // use modulo
-	return bucketNumber;
-}
 
 DiskMultiMap::DiskMultiMap()
 {
@@ -27,6 +17,21 @@ DiskMultiMap::DiskMultiMap()
 DiskMultiMap::~DiskMultiMap()
 {
 	m_hashTable.close(); // close data file associated with DiskMultiMap
+}
+
+unsigned int DiskMultiMap::stringHashFunction(const std::string& hashMe)
+{
+	if (m_hashTable.isOpen())
+	{
+		std::hash<std::string> str_hash; // creates a string hasher
+		unsigned int hashValue = str_hash(hashMe); // hash the string
+		Header h; // crate a header struct
+		m_hashTable.read(h, 0); // read in header struct into h
+		unsigned int nBuckets = h.nBuckets; // grab the number of buckets
+		unsigned int bucketNumber = hashValue % nBuckets; // use modulo
+		return bucketNumber + 8;
+	}
+	return -1; // return -1 for error and data file not open
 }
 
 bool DiskMultiMap::createNew(const std::string & filename, unsigned int numBuckets)
@@ -93,8 +98,8 @@ bool DiskMultiMap::insert(const std::string& key, const std::string& value,
 	strcpy(newAssociation.key, key.c_str());
 	strcpy(newAssociation.value, value.c_str());
 	strcpy(newAssociation.context, context.c_str());
-	BinaryFile::Offset bucketAddress = stringHashFunction(key) + 8; // find bucket
-	newAssociation.next = bucketAddress;			// point to top bucket on list
+	BinaryFile::Offset bucketAddress = stringHashFunction(key); // find bucket
+	m_hashTable.read(newAssociation.next, bucketAddress); // point to top node on list
 	m_hashTable.write(nodeAddress, bucketAddress);	// point to new association
 	m_hashTable.write(newAssociation, nodeAddress); // write association in hash table
 	return true;
@@ -102,15 +107,16 @@ bool DiskMultiMap::insert(const std::string& key, const std::string& value,
 
 DiskMultiMap::Iterator DiskMultiMap::search(const std::string & key)
 {
-	BinaryFile::Offset address = stringHashFunction(key) + 8; // get offset of bucket
+	BinaryFile::Offset address = stringHashFunction(key); // get offset of bucket
 	Association a;								// create a new association struct
 	m_hashTable.read(a.next, address); // put address within bucket into a.next
 	while (a.next != 0)
 	{
-		m_hashTable.read(a, a.next);			// read top association into a
+		BinaryFile::Offset curr = a.next;		// address of current node
+		m_hashTable.read(a, a.next);			// read an association into a
 		if (strcmp(key.c_str(), a.key) == 0)	// if you find matching association
 		{
-			Iterator it(true, address);			// construct new iterator
+			Iterator it(true, curr);			// iterator with address of curr node
 			return it;							// return it
 		}
 	}
@@ -120,28 +126,41 @@ DiskMultiMap::Iterator DiskMultiMap::search(const std::string & key)
 
 int DiskMultiMap::erase(const std::string& key, const std::string& value, const std::string& context)
 {
-	// TODO: FINISH THIS IMPLEMENTATION
+	// TODO: CHECK THIS IMPLEMENTATION OVER AND OVER
 	int nodesDeleted = 0; // initialize counter for # association removed
 	BinaryFile::Offset curr = 0; // initialize to nullptr
 	BinaryFile::Offset prev = 0; // initialize to nullptr
-	BinaryFile::Offset bucketNumber = stringHashFunction(key) + 8; // get bucket #
+	BinaryFile::Offset bucketNumber = stringHashFunction(key); // get bucket #
 	Association a; // create new association structure
 	m_hashTable.read(a.next, bucketNumber); // put address of first node in a.next
-	if (a.next != 0) // if not nullptr
-		curr = a.next;
+	if (a.next != 0)						// if not nullptr
+		curr = a.next;						// point curr to node too
 	while (a.next != 0) // while not nullptr
 	{
 		m_hashTable.read(a, a.next); // read an association into a
 		if (strcmp(a.key, key.c_str()) == 0 && strcmp(a.value, value.c_str()) == 0 && strcmp(a.context, context.c_str()) == 0)
 		{
 			BinaryFile::Offset killMe = curr;
-			curr = a.next;
-			if (prev == 0) // if pointing to top of the list
+			curr = a.next;						// move curr over to next node
+			if (prev == 0)						// if pointing to top of the list
 				m_hashTable.write(curr, bucketNumber); // point to new top of list
 			else // prev is pointing to the last node
 			{
-
+				Association b; // create a new association struct
+				m_hashTable.read(b, prev); // read association into b
+				b.next = curr; // change next field to curr
 			}
+			// add removed node to the list of free memory
+			Header m; // create a new header struct
+			m_hashTable.read(m, 0); // read header into m
+			m.nBuckets--; // decrement the number of buckets
+			Association dead; // create new association structure
+			m_hashTable.read(dead, killMe); // read in association at killMe
+			dead.next = m.freeList;
+			m.freeList = killMe;
+			m_hashTable.write(m, 0); // write header into file
+			m_hashTable.write(dead, killMe); // write dead node back into file
+			nodesDeleted++; // increment counter for nodes deleted
 		}
 		else
 		{
@@ -149,10 +168,6 @@ int DiskMultiMap::erase(const std::string& key, const std::string& value, const 
 			curr = a.next; // move curr onto next node's address
 		}
 	}
-	// if you found matching association,
-	//		unhook node from the list
-	//		add node to the list of free space
-	//		increment counter
 	return nodesDeleted; // return counter
 }
 
@@ -177,6 +192,8 @@ DiskMultiMap::Iterator& DiskMultiMap::Iterator::operator++()
 	// TODO: FINISH IMPLEMENTING PREFIX INCREMENT OPERATOR
 	if (!m_valid) // if iterator not valid, must return
 		return *this;
+	Association m; // create a new association struct
+	//m_hashTable.read(m, m_address); // read current association into m
 	// if there's a next association
 	//		change this iterator's offset to that next association
 	//		return this iterator
@@ -191,5 +208,7 @@ MultiMapTuple DiskMultiMap::Iterator::operator*()
 	MultiMapTuple m;
 	if (!m_valid) // if iterator not valid, return tuple with empty strings
 		return m;
+	//Association m; // create a new association struct
+	//m_hashTable.read(m, m_address);
 	// Note: There's a note about caching in the spec under this function
 }

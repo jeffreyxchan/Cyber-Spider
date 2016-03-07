@@ -35,7 +35,7 @@
     <ClCompile Include="DiskMultiMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="p4tester.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

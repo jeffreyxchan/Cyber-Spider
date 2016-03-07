@@ -3,6 +3,7 @@
 
 #include <string>
 #include "MultiMapTuple.h"
+#include "BinaryFile.h"
 
 class DiskMultiMap
 {

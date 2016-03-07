@@ -1,119 +1,19 @@
-﻿Build started 3/6/2016 10:27:35 PM.
+﻿Build started 3/7/2016 2:41:02 PM.
      1>Project "C:\Users\Jeffrey\Documents\Visual Studio 2015\Projects\CS 32 Project 4\CS 32 Project 4\CS 32 Project 4.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt DiskMultiMap.cpp
          DiskMultiMap.cpp
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(15): error C2653: 'BinaryFile': is not a class or namespace name
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(15): error C2061: syntax error: identifier 'Offset'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(22): error C2653: 'BinaryFile': is not a class or namespace name
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(22): error C3646: 'm_address': unknown override specifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(22): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(39): error C2653: 'BinaryFile': is not a class or namespace name
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(39): error C3646: 'freeList': unknown override specifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(39): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(46): error C2653: 'BinaryFile': is not a class or namespace name
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(46): error C3646: 'next': unknown override specifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(46): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(49): error C2653: 'BinaryFile': is not a class or namespace name
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(49): error C3646: 'acquireNode': unknown override specifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(49): error C2059: syntax error: '('
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(49): error C2238: unexpected token(s) preceding ';'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(52): error C3646: 'm_hashTable': unknown override specifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(52): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(13): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(13): error C2228: left of '.read' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(13): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(22): error C2039: 'freeList': is not a member of 'DiskMultiMap::Header'
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(36): note: see declaration of 'DiskMultiMap::Header'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(27): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(27): error C2228: left of '.close' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(27): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(34): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(34): error C2228: left of '.close' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(34): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(36): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(36): error C2228: left of '.createNew' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(36): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(40): error C2039: 'freeList': is not a member of 'DiskMultiMap::Header'
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(36): note: see declaration of 'DiskMultiMap::Header'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(41): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(41): error C2228: left of '.write' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(41): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(43): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(45): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(45): error C2228: left of '.fileLength' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(45): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(47): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(47): error C2228: left of '.write' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(47): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(55): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(55): error C2228: left of '.close' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(55): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(61): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(61): error C2228: left of '.close' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(61): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(64): error C2039: 'acquireNode': is not a member of 'DiskMultiMap'
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(8): note: see declaration of 'DiskMultiMap'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(66): error C2065: 'Header': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(66): error C2146: syntax error: missing ';' before identifier 'header'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(66): error C2065: 'header': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(67): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(67): error C2228: left of '.read' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(67): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(67): error C2065: 'header': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(68): error C2065: 'header': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(68): error C2228: left of '.freeList' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(68): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(70): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(70): error C2228: left of '.fileLength' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(70): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(74): error C2065: 'header': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(74): error C2228: left of '.freeList' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(74): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(75): error C2065: 'Association': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(75): error C2146: syntax error: missing ';' before identifier 'emptySpace'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(75): error C2065: 'emptySpace': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(76): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(76): error C2228: left of '.read' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(76): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(76): error C2065: 'emptySpace': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(76): error C2065: 'header': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(76): error C2228: left of '.freeList' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(76): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(77): error C2065: 'header': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(77): error C2228: left of '.freeList' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(77): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(77): error C2065: 'emptySpace': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(77): error C2228: left of '.next' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(77): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(78): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(78): error C2228: left of '.write' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(78): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(78): error C2065: 'header': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(96): error C2039: 'next': is not a member of 'DiskMultiMap::Association'
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(42): note: see declaration of 'DiskMultiMap::Association'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(97): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(97): error C2228: left of '.write' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(97): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(98): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(98): error C2228: left of '.write' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(98): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(107): error C2039: 'next': is not a member of 'DiskMultiMap::Association'
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(42): note: see declaration of 'DiskMultiMap::Association'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(108): error C2039: 'next': is not a member of 'DiskMultiMap::Association'
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(42): note: see declaration of 'DiskMultiMap::Association'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(110): error C2065: 'm_hashTable': undeclared identifier
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(110): error C2228: left of '.read' must have class/struct/union
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(110): note: type is 'unknown-type'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(111): error C2664: 'int strcmp(const char *,const char *)': cannot convert argument 1 from 'const std::string' to 'const char *'
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(111): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(113): error C2661: 'DiskMultiMap::Iterator::Iterator': no overloaded function takes 2 arguments
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(139): error C2511: 'DiskMultiMap::Iterator::Iterator(bool,BinaryFile::Offset)': overloaded member function not found in 'DiskMultiMap::Iterator'
-         c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.h(11): note: see declaration of 'DiskMultiMap::Iterator'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(140): error C2597: illegal reference to non-static member 'DiskMultiMap::Iterator::m_valid'
-     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(141): error C2065: 'm_address': undeclared identifier
-     1>Done Building Project "C:\Users\Jeffrey\Documents\Visual Studio 2015\Projects\CS 32 Project 4\CS 32 Project 4\CS 32 Project 4.vcxproj" (Build target(s)) -- FAILED.
+     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(50): warning C4018: '<': signed/unsigned mismatch
+     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(195): warning C4101: 'm': unreferenced local variable
+     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(64): warning C4717: 'DiskMultiMap::openExisting': recursive on all control paths, function will cause runtime stack overflow
+     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(203): warning C4715: 'DiskMultiMap::Iterator::operator++': not all control paths return a value
+     1>c:\users\jeffrey\documents\visual studio 2015\projects\cs 32 project 4\cs 32 project 4\diskmultimap.cpp(214): warning C4715: 'DiskMultiMap::Iterator::operator*': not all control paths return a value
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jeffrey\Documents\Visual Studio 2015\Projects\CS 32 Project 4\Debug\CS 32 Project 4.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Jeffrey\Documents\Visual Studio 2015\Projects\CS 32 Project 4\Debug\CS 32 Project 4.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jeffrey\Documents\Visual Studio 2015\Projects\CS 32 Project 4\Debug\CS 32 Project 4.lib" /MACHINE:X86 Debug\DiskMultiMap.obj
+         Debug\main.obj
+         CS 32 Project 4.vcxproj -> C:\Users\Jeffrey\Documents\Visual Studio 2015\Projects\CS 32 Project 4\Debug\CS 32 Project 4.exe
+     1>Done Building Project "C:\Users\Jeffrey\Documents\Visual Studio 2015\Projects\CS 32 Project 4\CS 32 Project 4\CS 32 Project 4.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:01.58
+Time Elapsed 00:00:04.88
