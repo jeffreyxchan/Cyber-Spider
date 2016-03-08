@@ -13,7 +13,7 @@ public:
 	public:
 		Iterator();
 		// You may add additional constructors
-		Iterator(bool valid, BinaryFile::Offset nodeAddress);
+		Iterator(bool valid, BinaryFile::Offset nodeAddress, DiskMultiMap* myDiskMultiMap);
 		bool isValid() const;
 		Iterator& operator++();
 		MultiMapTuple operator*();
@@ -21,6 +21,7 @@ public:
 		// can add more private stuff there
 		bool m_valid;
 		BinaryFile::Offset m_address;
+		DiskMultiMap* m_ptr;
 	};
 
 	DiskMultiMap();

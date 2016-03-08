@@ -27,7 +27,7 @@ unsigned int DiskMultiMap::stringHashFunction(const std::string& hashMe)
 	m_hashTable.read(h, 0); // read in header struct into h
 	unsigned int nBuckets = h.nBuckets; // grab the number of buckets
 	unsigned int bucketNumber = hashValue % nBuckets; // use modulo
-	return bucketNumber + 8;
+	return 4*bucketNumber + 8;
 }
 
 bool DiskMultiMap::createNew(const std::string & filename, unsigned int numBuckets)
@@ -112,7 +112,7 @@ DiskMultiMap::Iterator DiskMultiMap::search(const std::string & key)
 		m_hashTable.read(a, a.next);			// read an association into a
 		if (strcmp(key.c_str(), a.key) == 0)	// if you find matching association
 		{
-			Iterator it(true, curr);			// iterator with address of curr node
+			Iterator it(true, curr, this);			// iterator with address of curr node
 			return it;							// return it
 		}
 	}
@@ -171,10 +171,11 @@ DiskMultiMap::Iterator::Iterator()
 	m_valid = false; // default constructor must create iterator in invalid state
 }
 
-DiskMultiMap::Iterator::Iterator(bool valid, BinaryFile::Offset nodeAddress)
+DiskMultiMap::Iterator::Iterator(bool valid, BinaryFile::Offset nodeAddress, DiskMultiMap* myDiskMultiMap)
 {
 	m_valid = valid;
 	m_address = nodeAddress;
+	m_ptr = myDiskMultiMap;
 }
 
 bool DiskMultiMap::Iterator::isValid() const
@@ -184,26 +185,28 @@ bool DiskMultiMap::Iterator::isValid() const
 
 DiskMultiMap::Iterator& DiskMultiMap::Iterator::operator++()
 {
-	// TODO: FINISH IMPLEMENTING PREFIX INCREMENT OPERATOR
-	if (!m_valid) // if iterator not valid, must return
+	// TODO: CHECK THIS FUNCTION OVER AND OVER
+	if (!m_valid)						// if iterator not valid, must return
 		return *this;
-	Association m; // create a new association struct
-	//m_hashTable.read(m, m_address); // read current association into m
-	// if there's a next association
-	//		change this iterator's offset to that next association
-	//		return this iterator
-	// if there isn't a next association
-	//		change m_valid field to false
-	//		return this iterator
+	Association m;						// create a new association struct
+	m_ptr->m_hashTable.read(m, m_address); // read current association into m
+	if (m.next != 0)					// if there's a next association
+		m_address = m.next;				// set address to that association
+	else
+		m_valid = false;				// else, set to invalid iterator
+	return *this;						// return modified iterator
 }
 
 MultiMapTuple DiskMultiMap::Iterator::operator*()
 {
-	// TODO: FINISH IMPLEMENTING THIS FUNCTION
+	// TODO: CHECK THIS FUNCTION OVER AND OVER
 	MultiMapTuple m;
 	if (!m_valid) // if iterator not valid, return tuple with empty strings
 		return m;
-	//Association m; // create a new association struct
-	//m_hashTable.read(m, m_address);
-	// Note: There's a note about caching in the spec under this function
+	Association hold; // create a new association struct
+	m_ptr->m_hashTable.read(hold, m_address); // read curr association into m
+	m.key = hold.key;			// put information into MultiMapTuple
+	m.value = hold.value;
+	m.context = hold.context;
+	return m;
 }
