@@ -21,24 +21,20 @@ DiskMultiMap::~DiskMultiMap()
 
 unsigned int DiskMultiMap::stringHashFunction(const std::string& hashMe)
 {
-	if (m_hashTable.isOpen())
-	{
-		std::hash<std::string> str_hash; // creates a string hasher
-		unsigned int hashValue = str_hash(hashMe); // hash the string
-		Header h; // crate a header struct
-		m_hashTable.read(h, 0); // read in header struct into h
-		unsigned int nBuckets = h.nBuckets; // grab the number of buckets
-		unsigned int bucketNumber = hashValue % nBuckets; // use modulo
-		return bucketNumber + 8;
-	}
-	return -1; // return -1 for error and data file not open
+	std::hash<std::string> str_hash; // creates a string hasher
+	unsigned int hashValue = str_hash(hashMe); // hash the string
+	Header h; // crate a header struct
+	m_hashTable.read(h, 0); // read in header struct into h
+	unsigned int nBuckets = h.nBuckets; // grab the number of buckets
+	unsigned int bucketNumber = hashValue % nBuckets; // use modulo
+	return bucketNumber + 8;
 }
 
 bool DiskMultiMap::createNew(const std::string & filename, unsigned int numBuckets)
 {
 	// creates and open hash table in a binary disk file with filename
 	// and specified number of empty buckets
-	m_hashTable.close();					// close current data file to save data
+	close();								// close current data file to save data
 	bool success = true;					// return this bool
 	if (!m_hashTable.createNew(filename))	// create new data file
 		success = false;
@@ -59,8 +55,8 @@ bool DiskMultiMap::createNew(const std::string & filename, unsigned int numBucke
 
 bool DiskMultiMap::openExisting(const std::string & filename)
 {
-	m_hashTable.close(); // close current data file to save data
-	return openExisting(filename); // return success of method
+	close(); // close current data file to save data
+	return m_hashTable.openExisting(filename); // return success of method
 }
 
 void DiskMultiMap::close()
@@ -153,7 +149,6 @@ int DiskMultiMap::erase(const std::string& key, const std::string& value, const 
 			// add removed node to the list of free memory
 			Header m; // create a new header struct
 			m_hashTable.read(m, 0); // read header into m
-			m.nBuckets--; // decrement the number of buckets
 			Association dead; // create new association structure
 			m_hashTable.read(dead, killMe); // read in association at killMe
 			dead.next = m.freeList;

@@ -22,7 +22,9 @@ public:
 	bool purge(const std::string& entity);
 
 private:
-	// Your private member declarations will go here
+	DiskMultiMap m_downloadHashTable;		// holds download log data
+	DiskMultiMap m_createHashTable;			// holds create log data
+	DiskMultiMap m_contactHashTable;		// holdes contact log data
 };
 
 #endif // INTELWEB_H_
