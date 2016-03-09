@@ -91,8 +91,11 @@ public:
 
 	bool read(char* data, size_t length, Offset fromOffset)
 	{
-		return m_stream.seekg(fromOffset, ios::beg) &&
+		bool result = m_stream.seekg(fromOffset, ios::beg) &&
 			m_stream.read(data, length);
+		if (!result)
+			m_stream.clear();
+		return result;
 	}
 
 	template<typename T>

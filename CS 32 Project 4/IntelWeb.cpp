@@ -117,5 +117,27 @@ unsigned int IntelWeb::crawl(const std::vector<std::string>& indicators, unsigne
 
 bool IntelWeb::purge(const std::string & entity)
 {
-	return false;
+	int numberOfDataDeleted = 0;
+	DiskMultiMap::Iterator it = m_interactionTable.search(entity);
+	DiskMultiMap::Iterator it2 = m_reverseInteractionTable.search(entity);
+	while (it.isValid()) // while the first iterator is still valid
+	{
+		MultiMapTuple m = *it; // read in the mmt
+		++it; // increment the iterator before changing anything
+		m_interactionTable.erase(m.key, m.value, m.context); // erase association
+		// deals with corresponding association in other table
+		m_reverseInteractionTable.erase(m.value, m.key, m.context);
+		numberOfDataDeleted++; // increment # of data deleted
+	}
+	while (it2.isValid())
+	{
+		MultiMapTuple m = *it2; // read in the mmt
+		++it2;	// increment the iterator before changing anything
+		// erase association
+		m_reverseInteractionTable.erase(m.key, m.value, m.context);
+		// deals with the corresponding association in other table
+		m_interactionTable.erase(m.value, m.key, m.context);
+		numberOfDataDeleted++; // increment # of data deleted
+	}
+	return numberOfDataDeleted > 0; // return if any data was removed
 }

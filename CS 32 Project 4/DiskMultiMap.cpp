@@ -51,7 +51,7 @@ bool DiskMultiMap::createNew(const std::string & filename, unsigned int numBucke
 	Header testing; // CREATED A TESTING HEADER STRUCT
 	m_hashTable.read(testing, 0); // READ HEADER INTO TESTING HEADER STRUCT
 	std::cout << "nBuckets: " << testing.nBuckets << " freeList: " << testing.freeList << endl;
-	for (int k = 0; k < numBuckets; k++)	// add buckets into hash table
+	for (unsigned int k = 0; k < numBuckets; k++)	// add buckets into hash table
 	{
 		BinaryFile::Offset bucketOffset = m_hashTable.fileLength();
 		BinaryFile::Offset initialOffset = 0; // initialize to nullptr
@@ -261,13 +261,22 @@ DiskMultiMap::Iterator& DiskMultiMap::Iterator::operator++()
 		return *this;
 	Association m;						// create a new association struct
 	m_ptr->m_hashTable.read(m, m_address); // read current association into m
+	string ultimateKey = m.key; // key that we must match
 	std::cout << "operator++: Read an association into m." << endl;
 	std::cout << "The association looks like:" << endl;
 	std::cout << "Key: " << m.key << " Value: " << m.value << " Context: " << m.context << endl;
-	if (m.next != 0)					// if there's a next association
-		m_address = m.next;				// set address to that association
-	else
-		m_valid = false;				// else, set to invalid iterator
+	while (m_valid)	// while iterator still valid
+	{
+		if (m.next != 0)
+		{
+			m_address = m.next; // move iterator over to such next association
+			m_ptr->m_hashTable.read(m, m.next); // read in that association
+		}
+		else
+			m_valid = false;
+		if (m_valid && strcmp(m.key, ultimateKey.c_str()) == 0) // if you find matching key
+			return *this;
+	}
 	std::cout << "The address of this iterator is now " << m_address << endl;
 	return *this;						// return modified iterator
 }
