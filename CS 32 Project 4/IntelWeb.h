@@ -2,6 +2,7 @@
 #define INTELWEB_H_
 
 #include "InteractionTuple.h"
+#include "DiskMultiMap.h"
 #include <string>
 #include <vector>
 
@@ -22,9 +23,8 @@ public:
 	bool purge(const std::string& entity);
 
 private:
-	DiskMultiMap m_downloadHashTable;		// holds download log data
-	DiskMultiMap m_createHashTable;			// holds create log data
-	DiskMultiMap m_contactHashTable;		// holdes contact log data
+	DiskMultiMap m_interactionTable;		// holds forward interactions
+	DiskMultiMap m_reverseInteractionTable; // holds the reverse interactions
 };
 
 #endif // INTELWEB_H_
