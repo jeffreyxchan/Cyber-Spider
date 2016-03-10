@@ -6,6 +6,9 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <queue>
 using namespace std;
 
 IntelWeb::IntelWeb()
@@ -103,15 +106,73 @@ bool IntelWeb::ingest(const std::string & telemetryFile)
 	return true;
 }
 
-unsigned int IntelWeb::crawl(const std::vector<std::string>& indicators, unsigned int minPrevalenceToBeGood, std::vector<std::string>& badEntitiesFound, std::vector<InteractionTuple>& interactions)
+unsigned int IntelWeb::crawl(const std::vector<std::string>& indicators, 
+	unsigned int minPrevalenceToBeGood, std::vector<std::string>& badEntitiesFound, 
+	std::vector<InteractionTuple>& interactions)
 {
-	// 1) discovering and outputting ordered/sorted vector of malicious entities
-	//	  found in previously ingested telementary
-	// 2) outputting an ordered/sorted vector of every interaction discovered that
-	//    contains at least one malicious entity
 	unsigned int numberOfDiscoveredMaliciousEntities = 0; // initialize a counter
-	// iterate through the vector of known malicious entities
-	// search for the respective entit
+	queue<string> toBeProcessed; // initialize aa waiting list of entities to analyze
+	unordered_set<string> uniqueEntities; // intialize a set of unique entities
+	unordered_map<string, int> prevalenceMap; // intialize a prevalence map
+	//unordered_set<InteractionTuple> uniqueInterations;
+	for (vector<string>::const_iterator it = indicators.begin(); it != indicators.end(); it++)
+	{
+		toBeProcessed.push(*it); // push an entity onto the queue
+		string originalString = *it; // save the first string just in case
+		while (!toBeProcessed.empty())			// while the queue isnt empty
+		{
+			string findMe = toBeProcessed.front(); // extract front item
+			toBeProcessed.pop();				// pop the item off
+			DiskMultiMap::Iterator inOrder = m_interactionTable.search(findMe);
+			while (inOrder.isValid()) // while iterator still valid
+			{
+				MultiMapTuple mmt = *inOrder; // get MultiMapTuple
+				toBeProcessed.push(mmt.value); // push value onto queue
+				uniqueEntities.insert(mmt.key); // push key onto unique set
+				uniqueEntities.insert(mmt.value); // push value onto unique set
+				unordered_map<string, int>::const_iterator found = prevalenceMap.find(mmt.key);
+				if (found == prevalenceMap.end()) // if not found
+					prevalenceMap.insert({ mmt.key, 1 }); // create a mapping
+				else
+					prevalenceMap[mmt.key]++; // increment the maping number
+				found = prevalenceMap.find(mmt.value);
+				if (found == prevalenceMap.end())
+					prevalenceMap.insert({ mmt.value, 1 }); // create a mapping
+				else
+					prevalenceMap[mmt.value]++; // increment the mapping number
+				//InteractionTuple tuple;
+				//tuple.context = mmt.context;
+				//tuple.from = mmt.key;
+				//tuple.to = mmt.value;
+				//uniqueInterations.insert(tuple); // insert tuple
+				++inOrder; // increment iterator
+			}
+			DiskMultiMap::Iterator reverseOrder = m_reverseInteractionTable.search(findMe);
+			while (reverseOrder.isValid())
+			{
+				MultiMapTuple mmt = *reverseOrder; // get MultiMapTuple
+				toBeProcessed.push(mmt.value); // push value onto queue
+				uniqueEntities.insert(mmt.key); // push key onto unique set
+				uniqueEntities.insert(mmt.value); // push value onto unique set
+				unordered_map<string, int>::const_iterator found = prevalenceMap.find(mmt.key);
+				if (found == prevalenceMap.end()) // if not found
+					prevalenceMap.insert({ mmt.key, 1 }); // create a mapping
+				else
+					prevalenceMap[mmt.key]++; // increment the maping number
+				found = prevalenceMap.find(mmt.value);
+				if (found == prevalenceMap.end())
+					prevalenceMap.insert({ mmt.value, 1 }); // create a mapping
+				else
+					prevalenceMap[mmt.value]++; // increment the mapping number
+				//InteractionTuple tuple;
+				//tuple.context = mmt.context;
+				//tuple.to = mmt.key;
+				//tuple.from = mmt.value;
+				//uniqueInterations.insert(tuple); // insert tuple
+				++reverseOrder;
+			}
+		}
+	}
 	return numberOfDiscoveredMaliciousEntities;
 }
 
