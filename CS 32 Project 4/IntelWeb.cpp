@@ -128,7 +128,7 @@ unsigned int IntelWeb::crawl(const std::vector<std::string>& indicators,
 		processedStrings.insert(curr); // insert curr into set of looked at strings
 		DiskMultiMap::Iterator inOrder = m_interactionTable.search(curr);
 		DiskMultiMap::Iterator reverseOrder = m_reverseInteractionTable.search(curr);
-		int prevalenceOfCurr = 0;		// initialize a prevalence counter
+		unsigned int prevalenceOfCurr = 0;		// initialize a prevalence counter
 		// calculate prevalence
 		while (inOrder.isValid()) // while the inOrder iterator is still valid
 		{
