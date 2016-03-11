@@ -6,10 +6,30 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <set>
 #include <unordered_map>
 #include <unordered_set>
-#include <queue>
+#include <stack>
+#include <algorithm>
 using namespace std;
+
+bool operator<(const InteractionTuple& tuple1, const InteractionTuple& tuple2)
+{
+	if (tuple1.context < tuple2.context)
+		return true;
+	else if (tuple1.context > tuple2.context)
+		return false;
+	else if (tuple1.from < tuple2.from)
+		return true;
+	else if (tuple1.from > tuple2.from)
+		return false;
+	else if (tuple1.to < tuple2.to)
+		return true;
+	else if (tuple1.to > tuple2.to)
+		return false;
+	else
+		return false;
+}
 
 IntelWeb::IntelWeb()
 {
@@ -110,70 +130,77 @@ unsigned int IntelWeb::crawl(const std::vector<std::string>& indicators,
 	unsigned int minPrevalenceToBeGood, std::vector<std::string>& badEntitiesFound, 
 	std::vector<InteractionTuple>& interactions)
 {
-	unsigned int numberOfDiscoveredMaliciousEntities = 0; // initialize a counter
-	queue<string> toBeProcessed; // initialize aa waiting list of entities to analyze
-	unordered_set<string> uniqueEntities; // intialize a set of unique entities
-	unordered_map<string, int> prevalenceMap; // intialize a prevalence map
-	//unordered_set<InteractionTuple> uniqueInterations;
+	stack<string> toBeProcessed;		// waiting list for entities to analyze
+	unordered_set<string> uniqueEntities; // set of unique bad entities
+	set<InteractionTuple> interactionTupleSet; // set for unique interactions
+	unordered_set<string> processedStrings; // set of stuff you've already looked at
 	for (vector<string>::const_iterator it = indicators.begin(); it != indicators.end(); it++)
+		toBeProcessed.push(*it); // push all the indicators onto the queue
+	while (!toBeProcessed.empty()) // while there's still stuff to look at
 	{
-		toBeProcessed.push(*it); // push an entity onto the queue
-		string originalString = *it; // save the first string just in case
-		while (!toBeProcessed.empty())			// while the queue isnt empty
+		string curr = toBeProcessed.top(); // get the top item from the stack
+		toBeProcessed.pop();		// pop the item off of the stack
+		if (processedStrings.find(curr) == processedStrings.end())
+			continue;
+		processedStrings.insert(curr); // insert curr into set of looked at strings
+		DiskMultiMap::Iterator inOrder = m_interactionTable.search(curr);
+		DiskMultiMap::Iterator reverseOrder = m_reverseInteractionTable.search(curr);
+		int prevalenceOfCurr = 0;		// initialize a prevalence counter
+		// calculate prevalence
+		while (inOrder.isValid()) // while the inOrder iterator is still valid
 		{
-			string findMe = toBeProcessed.front(); // extract front item
-			toBeProcessed.pop();				// pop the item off
-			DiskMultiMap::Iterator inOrder = m_interactionTable.search(findMe);
-			while (inOrder.isValid()) // while iterator still valid
+			prevalenceOfCurr++;
+			++inOrder;
+		}
+		while (reverseOrder.isValid())
+		{
+			prevalenceOfCurr++;
+			++inOrder;
+		}
+		if (prevalenceOfCurr > 0 && prevalenceOfCurr < minPrevalenceToBeGood) // if within prevalence range
+		{
+			uniqueEntities.insert(curr); // insert the entity into the set of entities
+										 // push all their keys onto the stack
+			DiskMultiMap::Iterator addInOrder = m_interactionTable.search(curr);
+			DiskMultiMap::Iterator addReverse = m_reverseInteractionTable.search(curr);
+			while (addInOrder.isValid())
 			{
-				MultiMapTuple mmt = *inOrder; // get MultiMapTuple
-				toBeProcessed.push(mmt.value); // push value onto queue
-				uniqueEntities.insert(mmt.key); // push key onto unique set
-				uniqueEntities.insert(mmt.value); // push value onto unique set
-				unordered_map<string, int>::const_iterator found = prevalenceMap.find(mmt.key);
-				if (found == prevalenceMap.end()) // if not found
-					prevalenceMap.insert({ mmt.key, 1 }); // create a mapping
-				else
-					prevalenceMap[mmt.key]++; // increment the maping number
-				found = prevalenceMap.find(mmt.value);
-				if (found == prevalenceMap.end())
-					prevalenceMap.insert({ mmt.value, 1 }); // create a mapping
-				else
-					prevalenceMap[mmt.value]++; // increment the mapping number
-				//InteractionTuple tuple;
-				//tuple.context = mmt.context;
-				//tuple.from = mmt.key;
-				//tuple.to = mmt.value;
-				//uniqueInterations.insert(tuple); // insert tuple
-				++inOrder; // increment iterator
+				MultiMapTuple newMultiMapTuple = *addInOrder;
+				InteractionTuple newInteraction;
+				newInteraction.context = newMultiMapTuple.context;
+				newInteraction.from = newMultiMapTuple.key;
+				newInteraction.to = newMultiMapTuple.value;
+				toBeProcessed.push(newInteraction.to);
+				interactionTupleSet.insert(newInteraction);
+				++addInOrder;
 			}
-			DiskMultiMap::Iterator reverseOrder = m_reverseInteractionTable.search(findMe);
-			while (reverseOrder.isValid())
+			while (addReverse.isValid())
 			{
-				MultiMapTuple mmt = *reverseOrder; // get MultiMapTuple
-				toBeProcessed.push(mmt.value); // push value onto queue
-				uniqueEntities.insert(mmt.key); // push key onto unique set
-				uniqueEntities.insert(mmt.value); // push value onto unique set
-				unordered_map<string, int>::const_iterator found = prevalenceMap.find(mmt.key);
-				if (found == prevalenceMap.end()) // if not found
-					prevalenceMap.insert({ mmt.key, 1 }); // create a mapping
-				else
-					prevalenceMap[mmt.key]++; // increment the maping number
-				found = prevalenceMap.find(mmt.value);
-				if (found == prevalenceMap.end())
-					prevalenceMap.insert({ mmt.value, 1 }); // create a mapping
-				else
-					prevalenceMap[mmt.value]++; // increment the mapping number
-				//InteractionTuple tuple;
-				//tuple.context = mmt.context;
-				//tuple.to = mmt.key;
-				//tuple.from = mmt.value;
-				//uniqueInterations.insert(tuple); // insert tuple
-				++reverseOrder;
+				MultiMapTuple newMultiMapTuple = *addReverse;
+				InteractionTuple newInteraction;
+				newInteraction.context = newMultiMapTuple.context;
+				newInteraction.from = newMultiMapTuple.key;
+				newInteraction.to = newMultiMapTuple.value;
+				toBeProcessed.push(newInteraction.to);
+				interactionTupleSet.insert(newInteraction);
+				++addReverse;
 			}
 		}
+		else
+			continue;
 	}
-	return numberOfDiscoveredMaliciousEntities;
+	// put all items in badEntities set into a vector, sort, and swap that with the passed in vector
+	vector<string> finalEntitiesVector;
+	for (unordered_set<string>::iterator setIterator = uniqueEntities.begin(); setIterator != uniqueEntities.end(); setIterator++)
+		finalEntitiesVector.push_back(*setIterator);
+	std::sort(finalEntitiesVector.begin(), finalEntitiesVector.end()); // sort vector
+	badEntitiesFound = finalEntitiesVector;
+	// put all the iteractions into a vector and swap that with the passed in vector
+	vector<InteractionTuple> finalTupleVector;
+	for (set<InteractionTuple>::iterator setIterator = interactionTupleSet.begin(); setIterator != interactionTupleSet.end(); setIterator++)
+		finalTupleVector.push_back(*setIterator);
+	interactions = finalTupleVector;
+	return badEntitiesFound.size();
 }
 
 bool IntelWeb::purge(const std::string & entity)
