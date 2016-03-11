@@ -22,4 +22,7 @@ The main source code contained in this project can be found within the CS 32 Pro
 <b>DiskMultiMap.h and DiskMultiMap.cpp</b> contain the design and implementaion of of the disk based open hash table capable of storing telemetry log data. It has the ability to insert new nodes, erase nodes, reuse disk space, and comes with an iterator to help traverse the hash table.
 <br><br>
 <b>IntelWeb.h and IntelWeb.cpp</b> contain the code for a class that can be used to process large amounts of telemetry data. Utilizing two DiskMultiMaps, the Intel Web class can "ingest" (insert) new telemetry log data from external text files, "crawl" through the stored telemetry log data, and "purge" recognized and newly discovered malicious entities from the log data.
+<br><br>
 <b>MultiMapTuple.h and InteractionTuple.h</b> contains the code for two simple structs that helped make the implementation easier.
+<br><br>
+Don't worry about the <b>main.cpp</b> file or any other <b>.dat</b> or <b>.txt</b> files that might also be contained within the same folder. The presence of thos files were purely for testing purposes.
