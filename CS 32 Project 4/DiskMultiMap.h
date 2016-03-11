@@ -52,7 +52,6 @@ private:
 	unsigned int stringHashFunction(const std::string& hashMe);
 
 	BinaryFile m_hashTable;
-	Header m_header;
 };
 
 #endif // DISKMULTIMAP_H_
